@@ -95,7 +95,14 @@ except Exception:
 def home():
     # indicate whether a CV is available (served from static/cv)
     cv_exists = os.path.exists(STATIC_CV_PATH)
-    return render_template("index.html", d=PORTFOLIO_DATA, cv_available=cv_exists)
+    return render_template(
+        "index.html",
+        d=PORTFOLIO_DATA,
+        cv_available=cv_exists,
+        CV_FILENAME=CV_FILENAME,
+    )
+
+
 
 
 @app.route("/api/contact", methods=["POST"])
