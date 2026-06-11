@@ -65,7 +65,8 @@ PORTFOLIO_DATA = {
         {"emoji":"📩","logo":"images/gmail-logo.svg","title":"Spam Mail Detection","desc":"Streamlit app that detects spam emails using NLP models and feature-based classifiers, with real-time inference and a simple UI.","tags":["NLP","Spam Detection","Streamlit","Machine Learning"],"grad":"g2","live":"https://spam-mail-detection-soumyadip.streamlit.app/","gh":"https://github.com/Soumyadip9575/Spam-Mail-Detection"},
         {"emoji":"💰","logo":"images/finpay-logo.png","title":"FinPay (VORTEx)","desc":"FinPay — a payments demo (VORTEx) deployed on Render providing secure payment flows and transaction demos.","tags":["FinTech","Payments","Flask","Deploy"],"grad":"g3","live":"https://finpay-28s5.onrender.com/","gh":"https://github.com/Soumyadip9575/VORTEx-"},
         {"emoji":"🚗","logo":"images/car-logo.svg","title":"Parking Identification","desc":"Parking Identification — vehicle detection and parking-slot identification web demo with visual overlays.","tags":["Computer Vision","Object Detection","Web Demo"],"grad":"g4",   "live":"https://soumyadip9575.github.io/Parking-Identification/","gh":"https://github.com/Soumyadip9575/Parking-Identification"},
-        {"emoji":"🧑‍💻","title":"PortFolio",       "desc":"A portfolio is a compilation of academic and professional materials that exemplifies your beliefs, skills, qualifications, education, training, and experiences. It provides insight into your personality and work ethic.",             "tags":["BERT","FastAPI","Docker"],    "grad":"g3"},
+        {"emoji":"🧑‍💻","title":"PortFolio",       "desc":"A portfolio is a compilation of academic and professional materials that exemplifies your beliefs, skills, qualifications, education, training, and experiences. It provides insight into your personality and work ethic.",             "tags":["BERT","FastAPI","Docker"],    "grad":"g5", "live":"https://portfolio-24ff.onrender.com/","gh":"https://github.com/Soumyadip9575/PortFolio"},
+
         {"emoji":"🗣️","title":"AI Voice Assistant",           "desc":"Conversational assistant with Whisper STT, Llama reasoning, and neural TTS for smart home automation.", "tags":["Whisper","Llama","TTS"],      "grad":"g4"},
         {"emoji":"🎨","title":"Image Generation App",         "desc":"Stable Diffusion web app for text-to-image generation with custom LoRA fine-tuning support.",          "tags":["Stable Diffusion","LoRA","Gradio"],"grad":"g6"},
     ],
@@ -73,12 +74,15 @@ PORTFOLIO_DATA = {
 }
 
 # New CV filename requested by user
-CV_FILENAME = "CV_SOUMYADIP 09.06.2026 (1).pdf"
+CV_FILENAME = "CV_SOUMYADIP 11.06.2026 .pdf"
 STATIC_CV_PATH = os.path.join(app.root_path, 'static', 'cv', CV_FILENAME)
-# Absolute fallback path (user desktop) — updated to the new file name provided by the user.
-FALLBACK_CV_PATH = r"C:\Users\SOUMYADIP KARAK\OneDrive\Desktop\CV_SOUMYADIP 09.06.2026 (1).pdf"
+# IMPORTANT: Do not use absolute Windows paths. Only serve from repo static/cv.
+FALLBACK_CV_PATH = None
 
-OLD_CV_FILENAME = "CV_SOUMYADIP 09.02.2026.pdf"
+
+
+OLD_CV_FILENAME = "CV_SOUMYADIP 09.06.2026 (1).pdf"
+
 old_static = os.path.join(app.root_path, 'static', 'cv', OLD_CV_FILENAME)
 try:
     if os.path.exists(old_static):
@@ -89,9 +93,10 @@ except Exception:
 
 @app.route("/")
 def home():
-    # indicate whether a CV is available (either in static/cv or fallback path)
-    cv_exists = os.path.exists(STATIC_CV_PATH) or os.path.exists(FALLBACK_CV_PATH)
+    # indicate whether a CV is available (served from static/cv)
+    cv_exists = os.path.exists(STATIC_CV_PATH)
     return render_template("index.html", d=PORTFOLIO_DATA, cv_available=cv_exists)
+
 
 @app.route("/api/contact", methods=["POST"])
 def contact():
