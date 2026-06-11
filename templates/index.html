@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Soumyadip Karak — AI Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@600;700;900&display=swap" rel="stylesheet"/>
+<style>
+/* ============================================================
+   ROOT VARIABLES
+============================================================ */
+:root {
+  --bg:     #060c22;
+  --bg2:    #0b1330;
+  --card:   #0f1a3a;
+  --acc:    #4db8ff;
+  --acc2:   #a855f7;
+  --pink:   #ff2d6d;
+  --text:   #ddeeff;
+  --muted:  #7a9cbf;
+  --border: rgba(77,184,255,0.13);
+  --glow:   0 0 40px rgba(77,184,255,0.22);
+  --r:      14px;
+  --nav:    68px;
+  --ease:   .3s cubic-bezier(.4,0,.2,1);
+}
+/* ============================================================
+   RESET & BASE
+============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Space Grotesk',sans-serif;
+  background:var(--bg);color:var(--text);
+  overflow-x:hidden;line-height:1.6;
+}
+a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--acc2);border-radius:3px}
+
+/* ============================================================
+   ANIMATED PARTICLE CANVAS
+============================================================ */
+#cvs{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ============================================================
+   NAVBAR
+============================================================ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  height:var(--nav);display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;
+  background:rgba(6,12,34,.88);backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  transition:background var(--ease),box-shadow var(--ease);
+}
+nav.scrolled{background:rgba(6,12,34,.98);box-shadow:0 4px 30px rgba(0,0,0,.45)}
+.n-logo{
+  font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:700;color:#fff;
+}
+.n-logo span{color:var(--acc)}
+.n-links{
+  display:flex;gap:34px;list-style:none;
+  position:absolute;left:50%;transform:translateX(-50%);
+}
+.n-links a{
+  font-size:.86rem;font-weight:500;color:var(--muted);
+  padding-bottom:4px;position:relative;transition:color var(--ease);
+}
+.n-links a::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--acc);border-radius:1px;
+  transform:scaleX(0);transform-origin:center;transition:transform var(--ease);
+}
+.n-links a:hover,.n-links a.act{color:#fff}
+.n-links a:hover::after,.n-links a.act::after{transform:scaleX(1)}
+.n-right{display:flex;align-items:center;gap:12px}
+.n-moon{
+  width:34px;height:34px;border-radius:50%;font-size:.9rem;cursor:pointer;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;
+  transition:background var(--ease);
+}
+.n-moon:hover{background:rgba(255,255,255,.14)}
+.n-cv{
+  display:flex;align-items:center;gap:6px;
+  padding:9px 20px;border-radius:7px;
+  background:var(--pink);color:#fff;border:none;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.82rem;font-weight:700;cursor:pointer;
+  transition:filter var(--ease),transform var(--ease);
+}
+.n-cv:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.burger{
+  display:none;background:none;border:1px solid var(--border);
+  color:var(--text);padding:6px 10px;border-radius:6px;
+  font-size:1.1rem;cursor:pointer;
+}
+
+/* ============================================================
+   HOME SECTION
+============================================================ */
+#home{
+  min-height:100vh;display:flex;flex-direction:column;
+  position:relative;z-index:1;
+}
+.home-wrap{
+  flex:1;display:flex;align-items:center;
+  padding:calc(var(--nav) + 20px) 5% 20px;
+}
+
+/* ---- Photo Left ---- */
+.photo-side{
+  width:48%;display:flex;align-items:center;justify-content:center;
+  position:relative;padding:50px 0;
+}
+.aura{position:absolute;border-radius:50%;pointer-events:none}
+.au1{
+  width:420px;height:420px;
+  background:radial-gradient(circle,rgba(77,184,255,.15) 0%,transparent 68%);
+  animation:pls 4s ease-in-out infinite;
+}
+.au2{
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(168,85,247,.12) 0%,transparent 65%);
+  animation:pls 4s ease-in-out infinite reverse;
+}
+.au3{
+  width:520px;height:520px;
+  background:radial-gradient(circle,rgba(77,184,255,.05) 0%,transparent 60%);
+  animation:pls2 6s ease-in-out infinite;
+}
+@keyframes pls{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.1);opacity:1}}
+@keyframes pls2{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.08);opacity:.9}}
+
+.photo-stage{
+  position:relative;width:330px;height:380px;
+  cursor:pointer;z-index:2;
+  display:flex;align-items:flex-end;justify-content:center;
+}
+.ring{
+  position:absolute;border-radius:50%;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+}
+.r1{
+  width:350px;height:350px;
+  border:2px solid rgba(77,184,255,.45);
+  box-shadow:0 0 35px rgba(77,184,255,.2),inset 0 0 30px rgba(77,184,255,.06);
+  animation:rslow 14s linear infinite;
+}
+.r2{
+  width:300px;height:300px;
+  border:1px dashed rgba(168,85,247,.4);
+  animation:rslow 8s linear infinite reverse;
+}
+.r3{width:395px;height:395px;border:1px solid rgba(77,184,255,.1)}
+@keyframes rslow{
+  from{transform:translate(-50%,-50%) rotate(0deg)}
+  to  {transform:translate(-50%,-50%) rotate(360deg)}
+}
+
+.photo-bowl{
+  width:290px;height:290px;border-radius:50%;
+  background:var(--card);
+  border:3px solid rgba(77,184,255,.38);
+  box-shadow:0 0 55px rgba(77,184,255,.22),inset 0 0 40px rgba(6,12,34,.6);
+  overflow:hidden;position:absolute;bottom:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color var(--ease),box-shadow var(--ease);
+}
+.photo-stage:hover .photo-bowl{
+  border-color:var(--acc);
+  box-shadow:0 0 75px rgba(77,184,255,.4),inset 0 0 40px rgba(6,12,34,.6);
+}
+.photo-bowl img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.photo-hint{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:rgba(77,184,255,.7);text-align:center;padding:20px;
+}
+.photo-hint svg{opacity:.65}
+.photo-hint p{font-size:.78rem;color:rgba(160,200,230,.8);line-height:1.5}
+.photo-hint em{color:var(--acc);font-style:normal;font-size:.72rem;font-weight:600}
+.overflow-img{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:305px;height:420px;
+  object-fit:cover;object-position:top center;
+  pointer-events:none;z-index:3;display:none;
+}
+
+/* ---- Text Right ---- */
+.text-side{width:52%;padding-left:4%}
+.greeting{font-size:.9rem;color:var(--muted);margin-bottom:6px}
+.hero-name{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(1.9rem,3.5vw,3rem);font-weight:900;line-height:1.12;
+  background:linear-gradient(130deg,#fff 30%,var(--acc) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:10px;
+}
+.tw-row{
+  font-size:1.05rem;font-weight:500;color:var(--text);
+  display:flex;align-items:center;gap:6px;
+  margin-bottom:20px;min-height:1.7rem;
+}
+.tw-word{color:var(--acc);font-weight:700}
+.cursor-p{
+  display:inline-block;width:2px;height:1.1em;
+  background:var(--acc);border-radius:1px;
+  animation:blink .65s step-end infinite;vertical-align:middle;
+}
+@keyframes blink{50%{opacity:0}}
+.hero-bio{font-size:.86rem;color:var(--muted);line-height:1.65;max-width:680px;width:100%;margin-bottom:26px;text-align:justify;word-spacing:normal;letter-spacing:0;}
+
+
+
+
+/* ---- Socials ---- */
+.soc-row{display:flex;gap:9px;margin-bottom:26px}
+.soc{
+  width:37px;height:37px;border-radius:8px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all var(--ease);
+}
+.soc svg{width:16px;height:16px;fill:currentColor}
+.soc:hover{transform:translateY(-3px)}
+.soc-fb:hover{background:rgba(24,119,242,.2);border-color:#1877f2;color:#1877f2}
+.soc-tw:hover{background:rgba(29,161,242,.2);border-color:#1da1f2;color:#1da1f2}
+.soc-ig:hover{background:rgba(225,48,108,.2);border-color:#e1306c;color:#e1306c}
+.soc-li:hover{background:rgba(0,119,181,.2);border-color:#0077b5;color:#0077b5}
+.soc-gh:hover{background:rgba(200,200,200,.12);border-color:#ccc;color:#fff}
+.soc-kg:hover{background:rgba(32,176,241,.2);border-color:#20b0f1;color:#20b0f1}
+
+/* ---- CTA Buttons ---- */
+.cta-row{display:flex;gap:14px}
+.btn-hire,.btn-ct{
+  padding:12px 30px;border-radius:8px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.88rem;font-weight:700;cursor:pointer;
+  transition:all var(--ease);
+}
+.btn-hire{background:transparent;border:2px solid var(--acc);color:var(--acc)}
+.btn-hire:hover{background:var(--acc);color:var(--bg);box-shadow:var(--glow)}
+.btn-ct{background:transparent;border:2px solid rgba(255,255,255,.25);color:var(--text)}
+.btn-ct:hover{border-color:#fff;color:#fff}
+
+/* ---- Stats Bar ---- */
+.stats-bar{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:rgba(11,19,48,.95);backdrop-filter:blur(10px);
+  border-top:1px solid var(--border);position:relative;z-index:1;
+}
+.stat-cell{
+  display:flex;align-items:center;justify-content:center;
+  padding:26px 10px;position:relative;
+}
+.stat-cell+.stat-cell::before{
+  content:'';position:absolute;left:0;top:20%;height:60%;
+  width:1px;background:rgba(255,255,255,.1);
+}
+.stat-inner{display:flex;align-items:baseline;gap:8px}
+.stat-n{
+  font-family:'Orbitron',sans-serif;
+  font-size:2.1rem;font-weight:900;color:#fff;line-height:1;
+}
+.stat-l{font-size:.67rem;color:var(--muted);white-space:pre-line;line-height:1.4}
+
+/* ============================================================
+   SECTION SHARED
+============================================================ */
+section{padding:96px 5%;position:relative;z-index:1}
+.alt-bg{background:var(--bg2)}
+.sec-hd{margin-bottom:56px}
+.eyebrow{
+  font-size:.72rem;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--acc);display:block;margin-bottom:8px;
+}
+.sec-title{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:#fff;margin-bottom:12px;
+}
+.sec-title em{font-style:normal;color:var(--acc)}
+.title-bar{width:52px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--acc),var(--acc2))}
+
+/* Reveal animations */
+.rv-up{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;transition-delay:calc(var(--i,0)*.1s)}
+.rv-l {opacity:0;transform:translateX(-40px);transition:opacity .7s ease,transform .7s ease}
+.rv-r {opacity:0;transform:translateX(40px);transition:opacity .7s ease,transform .7s ease}
+.show {opacity:1!important;transform:none!important}
+
+/* ============================================================
+   ABOUT
+============================================================ */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.about-l p{color:var(--muted);font-size:.88rem;line-height:1.9;margin-bottom:16px}
+.about-l strong{color:var(--text)}
+.tech-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.tchip{
+  padding:5px 13px;border-radius:20px;font-size:.74rem;font-weight:600;
+  background:rgba(77,184,255,.08);border:1px solid rgba(77,184,255,.22);color:var(--acc);
+  transition:all var(--ease);cursor:default;
+}
+.tchip:hover{background:rgba(77,184,255,.18);transform:translateY(-2px)}
+.sk-head{font-size:.9rem;font-weight:700;color:#fff;margin-bottom:22px}
+.sk-row{margin-bottom:18px}
+.sk-meta{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:7px}
+.sk-track{height:7px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden}
+.sk-bar{
+  height:100%;border-radius:4px;width:0;
+  background:linear-gradient(90deg,var(--acc),var(--acc2));
+  transition:width 1.2s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 10px rgba(77,184,255,.4);
+}
+
+/* ============================================================
+   SERVICES
+============================================================ */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.svc-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:32px 24px;position:relative;overflow:hidden;transition:all var(--ease);
+}
+.svc-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--acc),var(--acc2));
+  transform:scaleX(0);transform-origin:left;transition:transform var(--ease);
+}
+.svc-card:hover{transform:translateY(-6px);border-color:rgba(77,184,255,.3);box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.svc-card:hover::before{transform:scaleX(1)}
+.svc-glow{
+  position:absolute;bottom:-30px;right:-30px;
+  width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle,rgba(168,85,247,.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.svc-ico{
+  width:54px;height:54px;border-radius:12px;font-size:1.5rem;
+  background:rgba(77,184,255,.1);border:1px solid rgba(77,184,255,.2);
+  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+}
+.svc-card h3{font-size:.98rem;font-weight:700;color:#fff;margin-bottom:10px}
+.svc-card p{color:var(--muted);font-size:.82rem;line-height:1.75}
+
+/* ============================================================
+   PORTFOLIO
+============================================================ */
+.port-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.port-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;transition:all var(--ease);
+}
+.port-card:hover{transform:translateY(-6px);border-color:rgba(77,184,255,.3);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.port-thumb{
+  height:175px;display:flex;align-items:center;justify-content:center;
+  font-size:2.6rem;position:relative;overflow:hidden;
+}
+.t-emoji{position:relative;z-index:1;filter:drop-shadow(0 0 16px rgba(77,184,255,.5))}
+.port-ov{
+  position:absolute;inset:0;
+  background:rgba(6,12,34,.8);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  opacity:0;transition:opacity var(--ease);
+}
+.port-card:hover .port-ov{opacity:1}
+.pb{
+  padding:8px 18px;border-radius:6px;font-size:.78rem;font-weight:700;
+  cursor:pointer;border:none;font-family:'Space Grotesk',sans-serif;
+  transition:filter var(--ease);
+}
+.pb:hover{filter:brightness(1.15)}
+.pb-l{background:var(--acc);color:var(--bg)}
+.pb-g{background:var(--acc2);color:#fff}
+.port-body{padding:18px 20px}
+.port-body h3{font-size:.92rem;font-weight:700;color:#fff;margin-bottom:6px}
+.port-body p{color:var(--muted);font-size:.8rem;line-height:1.65;margin-bottom:12px}
+.port-chips{display:flex;flex-wrap:wrap;gap:6px}
+.pchip{
+  padding:3px 10px;border-radius:10px;font-size:.7rem;font-weight:600;
+  background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.28);color:#c084fc;
+}
+.g1{background:linear-gradient(135deg,#0f1a3a,#1c0d42)}
+.g2{background:linear-gradient(135deg,#0a1e2a,#001c18)}
+.g3{background:linear-gradient(135deg,#1a0a22,#0a0a2e)}
+.g4{background:linear-gradient(135deg,#1a1a0a,#0a0a1e)}
+.g5{background:linear-gradient(135deg,#001c2e,#1c001e)}
+.g6{background:linear-gradient(135deg,#0a1e0a,#001230)}
+
+/* ============================================================
+   CERTIFICATES (separate section background + divider)
+============================================================ */
+#certificates{position:relative;overflow:hidden;}
+#certificates::before{
+  content:'';
+  position:absolute;inset:-120px -40px auto -40px;
+  height:420px;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(168,85,247,.22) 0%, transparent 55%),
+    radial-gradient(circle at 78% 35%, rgba(77,184,255,.18) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(168,85,247,.10) 0%, rgba(11,19,48,.0) 55%, rgba(11,19,48,.28) 100%);
+  pointer-events:none;
+  transform:translateY(26px);
+  opacity:0;
+  transition:opacity .8s ease, transform .8s ease;
+}
+#certificates::after{
+  content:'';
+  position:absolute;
+  left:0;right:0;top:0;
+  height:70px;
+  background:linear-gradient(90deg, rgba(77,184,255,.0), rgba(77,184,255,.22), rgba(168,85,247,.22), rgba(77,184,255,.0));
+  opacity:0;
+  filter:blur(0.3px);
+  pointer-events:none;
+}
+#certificates .cert-divider{
+  width:100%;height:22px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  margin-top:-10px;
+  z-index:1;
+}
+#certificates .cert-divider::before,
+#certificates .cert-divider::after{
+  content:'';
+  height:1px;
+  width:42%;
+  background:linear-gradient(90deg, rgba(255,255,255,.0), rgba(77,184,255,.45), rgba(255,255,255,.0));
+}
+#certificates .cert-divider span{
+  font-size:.72rem;font-weight:800;letter-spacing:.22em;
+  color:rgba(77,184,255,.85);
+  text-transform:uppercase;
+  padding:0 12px;
+  border-radius:999px;
+  background:rgba(15,26,58,.55);
+  border:1px solid rgba(77,184,255,.15);
+  box-shadow:0 0 30px rgba(77,184,255,.10);
+}
+
+/* when section enters viewport */
+#certificates.show-bg::before,
+#certificates.show-bg::after{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ============================================================
+   CONTACT
+============================================================ */
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:50px;align-items:start}
+.contact-l h3{font-size:1rem;font-weight:700;color:#fff;margin-bottom:22px}
+.c-card{
+  display:flex;align-items:center;gap:14px;
+  padding:16px;background:var(--card);border:1px solid var(--border);border-radius:10px;
+  margin-bottom:13px;transition:border-color var(--ease);
+}
+.c-card:hover{border-color:rgba(77,184,255,.3)}
+.c-ic{
+  width:42px;height:42px;border-radius:10px;flex-shrink:0;font-size:1.1rem;
+  background:rgba(77,184,255,.1);border:1px solid rgba(77,184,255,.2);
+  display:flex;align-items:center;justify-content:center;
+}
+.c-card p{font-size:.74rem;color:var(--muted)}
+.c-card span{font-size:.87rem;color:var(--text);font-weight:500}
+.avail{color:var(--acc)!important}
+.form-box{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:34px;
+}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:.77rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+.fg input,.fg textarea{
+  width:100%;padding:11px 15px;border-radius:8px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(77,184,255,.15);
+  color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:.86rem;outline:none;
+  transition:border-color var(--ease),box-shadow var(--ease);
+}
+.fg input:focus,.fg textarea:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(77,184,255,.12)}
+.fg textarea{resize:vertical;min-height:108px}
+.btn-send{
+  width:100%;padding:13px;border-radius:8px;border:none;
+  background:linear-gradient(135deg,var(--acc2),var(--acc));
+  color:#fff;font-family:'Space Grotesk',sans-serif;
+  font-size:.92rem;font-weight:700;cursor:pointer;
+  transition:filter var(--ease),transform var(--ease);
+}
+.btn-send:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.fb-msg{margin-top:12px;font-size:.83rem;font-weight:600;min-height:20px;text-align:center}
+.fb-ok{color:#4ade80}
+.fb-err{color:#f87171}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:26px 5%;display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:1;
+}
+footer p{font-size:.8rem;color:var(--muted)}
+footer strong{color:var(--text)}
+.foot-soc{display:flex;gap:10px}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media(max-width:960px){
+  .n-links{display:none}
+  .n-links.open{
+    display:flex;flex-direction:column;gap:0;
+    position:absolute;top:var(--nav);left:0;right:0;
+    background:rgba(6,12,34,.98);backdrop-filter:blur(16px);
+    padding:20px 5%;border-bottom:1px solid var(--border);
+  }
+  .n-links.open li a{padding:12px 0;display:block;border-bottom:1px solid var(--border)}
+  .burger{display:block}
+  .home-wrap{flex-direction:column;padding-bottom:30px}
+  .photo-side,.text-side{width:100%}
+  .text-side{padding-left:0;text-align:center}
+  .soc-row,.cta-row{justify-content:center}
+  .hero-bio{margin:0 auto 26px}
+  .about-grid,.contact-grid{grid-template-columns:1fr}
+  .svc-grid,.port-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:580px){
+  .svc-grid,.port-grid{grid-template-columns:1fr}
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .frow2{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:14px;text-align:center}
+  .hero-name{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="cvs"></canvas>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav id="nb">
+  <a href="#home" class="n-logo">Port<span>folio</span></a>
+  <ul class="n-links" id="nlinks">
+    <li><a href="#home"      class="n-a act">Home</a></li>
+    <li><a href="#about"     class="n-a">About</a></li>
+    <li><a href="#service"   class="n-a">Service</a></li>
+    <li><a href="#portfolio" class="n-a">Portfolio</a></li>
+    <li><a href="#certificates" class="n-a">Certificates</a></li>
+    <li><a href="#contact"   class="n-a">Contact</a></li>
+
+  </ul>
+  <div class="n-right">
+    <div class="n-moon" id="moon">🌙</div>
+    <a href="{{ url_for('download_cv') }}" class="n-cv">Download CV <span style="font-size:1rem">↓</span></a>
+  </div>
+  <button class="burger" id="bg" aria-label="Menu">&#9776;</button>
+</nav>
+
+<!-- ==================== HOME ==================== -->
+<section id="home">
+  <div class="home-wrap">
+
+    <!-- LEFT: Photo -->
+    <div class="photo-side">
+      
+      <div class="photo-stage" id="ps" onclick="document.getElementById('pf').click()" title="Click to upload your photo">
+
+        <input type="file" id="pf" accept="image/*" style="display:none"/>
+        <div class="photo-bowl" id="pb">
+
+          <img id="pimg" src="{{ url_for('static', filename='images/profile.jpg') }}" alt="{{ d.name }}" style="display:block"/>
+          <div class="photo-hint" id="ph" style="display:none;">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+            <p>Click to upload<br/>your photo</p>
+            <em>JPG · PNG · WEBP</em>
+          </div>
+        </div>
+        <img id="oimg" class="overflow-img" src="" alt="{{ d.name }}"/>
+      </div>
+    </div>
+
+    <!-- RIGHT: Text -->
+    <div class="text-side">
+      <p class="greeting">Hello, I'm</p>
+      <h1 class="hero-name">{{ d.name }}</h1>
+      <div class="tw-row">
+        And I'm a&nbsp;<span class="tw-word" id="tw"></span><span class="cursor-p"></span>
+      </div>
+      <p class="hero-bio">"I'm Soumyadip Karak, A highly motivated and detail-oriented Computer Science student specializing in AI and Machine Learning, with strong foundations in programming, data structures, and problem-solving. Skilled in Python, Database Management System and data- driven technologies, with hands-on experience through academic projects and internships. Familiar with SQL, databases, operating systems, cloud fundamentals, and ticketing concepts. Quick learner with excellent communication skills and a keen interest in Production Support and IT Operations. Seeking an opportunity to contribute in a fast-paced support environment."</p>
+
+      <div class="soc-row">
+        {% if d.facebook %}
+        <a href="{{ d.facebook }}" class="soc soc-fb" title="Facebook" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.971h-1.513c-1.491 0-1.956.93-1.956 1.885v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+        </a>
+        {% endif %}
+
+        <a href="https://{{ d.linkedin }}" class="soc soc-li" title="LinkedIn" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+
+        <a href="https://{{ d.github }}" class="soc soc-gh" title="GitHub" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </a>
+
+        <a href="https://{{ d.linkedin }}" class="soc soc-tw" title="X / Twitter" style="display:none">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+
+        <a href="https://{{ d.linkedin }}" class="soc soc-ig" title="Instagram" style="display:none">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+      </div>
+
+      <div class="cta-row">
+        <button class="btn-hire" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Hire Me</button>
+        <button class="btn-ct"   onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Resume</button>
+        <button class="btn-hire" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Contact Me</button>
+      </div>
+
+
+
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    {% for s in d.stats %}
+    <div class="stat-cell">
+      <div class="stat-inner">
+        <span class="stat-n">{{ s.number }}</span>
+        <span class="stat-l">{{ s.label|replace('\n','&#10;')|safe }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ==================== ABOUT ==================== -->
+<section id="about" class="alt-bg">
+  <div class="sec-hd">
+    <span class="eyebrow">Who I Am</span>
+    <h2 class="sec-title">About <em>Me</em></h2>
+    <div class="title-bar"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-l rv-l">
+      <p>I'm Soumyadip Karak, a Computer Science student specializing in Artificial Intelligence and Machine Learning. Passionate about developing intelligent systems, I focus on creating innovative AI solutions that combine strong technical foundations with practical real-world applications.</p>
+      <p>My expertise includes Machine Learning, Deep Learning, Data Analytics, Python Development, and Generative AI. Through academic projects and continuous learning, I strive to build scalable, efficient, and impactful technologies that solve meaningful problems.</p>
+
+      <div class="tech-cloud">
+        <span class="tchip">Machine Learning</span>
+        <span class="tchip">Deep Learning</span>
+        <span class="tchip">Data Analysis</span>
+        <span class="tchip">SQL</span>
+        <span class="tchip">FastAPI</span>
+        <span class="tchip">Git</span>
+        {% for t in d.tech_tags %}
+          <span class="tchip">{{ t }}</span>
+        {% endfor %}
+
+      </div>
+    </div>
+    <div class="rv-r">
+      <p class="sk-head">Skill Proficiency</p>
+      {% for sk in d.skills %}
+      <div class="sk-row">
+        <div class="sk-meta"><span>{{ sk.name }}</span><span>{{ sk.pct }}%</span></div>
+        <div class="sk-track"><div class="sk-bar" data-p="{{ sk.pct }}"></div></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SERVICE ==================== -->
+<section id="service">
+  <div class="sec-hd">
+    <span class="eyebrow">What I Do</span>
+    <h2 class="sec-title">My <em>Services</em></h2>
+    <div class="title-bar"></div>
+  </div>
+  <div class="svc-grid">
+    {% for sv in d.services %}
+    <div class="svc-card rv-up" style="--i:{{ loop.index0 }}">
+      <div class="svc-ico">{{ sv.icon }}</div>
+      <h3>{{ sv.title }}</h3>
+      <p>{{ sv.desc }}</p>
+      <div class="svc-glow"></div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ==================== PORTFOLIO ==================== -->
+<section id="portfolio" class="alt-bg">
+  <div class="sec-hd">
+    <span class="eyebrow">My Work</span>
+    <h2 class="sec-title">My <em>Portfolio</em></h2>
+    <div class="title-bar"></div>
+  </div>
+  <div class="port-grid">
+    {% for p in d.projects %}
+    <div class="port-card rv-up" style="--i:{{ loop.index0 }}">
+      <div class="port-thumb g{{ p.grad[1:] if p.grad and p.grad|length>1 else '1' }}">
+        <span class="t-emoji">{{ p.emoji }}</span>
+        <div class="port-ov">
+          <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px;padding:0 18px;">
+            <div style="flex:1;display:flex;justify-content:flex-start;">
+              {% if p.live %}
+                <a class="pb pb-l" href="{{ p.live }}" target="_blank" rel="noopener">Live Demo</a>
+              {% else %}
+                <button class="pb pb-l" disabled style="opacity:.6;cursor:not-allowed">Live Demo</button>
+              {% endif %}
+            </div>
+            <div style="flex:1;display:flex;justify-content:flex-end;">
+              {% if p.gh %}
+                <a class="pb pb-g" href="{{ p.gh }}" target="_blank" rel="noopener">GitHub</a>
+              {% else %}
+                <button class="pb pb-g" disabled style="opacity:.6;cursor:not-allowed">GitHub</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="port-body">
+        <h3>{{ p.title }}</h3>
+        <p>{{ p.desc }}</p>
+        <div class="port-chips">
+          {% for t in p.tags %}
+            <span class="pchip">{{ t }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ==================== CERTIFICATES ==================== -->
+<section id="certificates" class="alt-bg">
+  <div class="sec-hd">
+    <span class="eyebrow">MY ACHIEVEMENTS</span>
+    <h2 class="sec-title">My <em>Certificates</em></h2>
+    <div class="title-bar"></div>
+  </div>
+
+  <div class="port-grid">
+
+
+
+    {% set certificates = [
+      {
+        'img': "images/python_certificate.jpg",
+        'thumb': "images/python_certificate.jpg",
+        'title': "Python For Data Science",
+        'org': "Issued By NPTEL-IIT Madras",
+        'date': "April,2026",
+        'tags': ['Python','Data Science','NPTEL'],
+        'view': "/static/images/python_certificate.jpg",
+        'download': "/static/images/python_certificate.jpg"
+      },
+      {
+        'img': "images/HackathonTexibition_.jpg",
+        'thumb': "images/HackathonTexibition_.jpg",
+        'title': "TEXIBITION 2K26-HACKATHON",
+        'org': "Issued By TEXIBITION- Brainware University",
+        'date': "March, 2026",
+        'tags': ['Hackathon','TEXIBITION','Brainware University'],
+        'view': "/static/images/HackathonTexibition_.jpg",
+        'download': "/static/images/HackathonTexibition_.jpg"
+      },
+      {
+        'img': "images/Samsung.jpg",
+        'thumb': "images/Samsung.jpg",
+        'title': "AI-Samsung Innovation Campus",
+        'org': "Issued By SAMSUNG- Brainware University",
+        'date': "November, 2026",
+        'tags': ['Samsung','Innovation Campus','Brainware University'],
+        'view': "/static/images/Samsung.jpg",
+        'download': "/static/images/Samsung.jpg"
+      },
+      {
+        'img': "images/Fly Smart-AI Drone Innovation Camp.jpg",
+        'thumb': "images/Fly Smart-AI Drone Innovation Camp.jpg",
+        'title': "Fly Smart-AI Drone Innovation Camp",
+        'org': "Issued By Espacio Aeronext Pvt. Ltd- Brainware University",
+        'date': "February, 2026",
+        'tags': ['Drone','Innovation Camp','Brainware University'],
+        'view': "/static/images/Fly Smart-AI Drone Innovation Camp.jpg",
+        'download': "/static/images/Fly Smart-AI Drone Innovation Camp.jpg"
+      },
+      {
+        'img': "images/Python 3.4.3 .jpg",
+        'thumb': "images/Python 3.4.3 .jpg",
+        'title': "Python 3.4.3",
+        'org': "Issued By Spoken Tutorial Project- IIT Bombay",
+        'date': "January, 2025",
+        'tags': ['Python','Spoken Tutorial','IIT Bombay'],
+        'view': "/static/images/Python 3.4.3 .jpg",
+        'download': "/static/images/Python 3.4.3 .jpg"
+      }
+    ] %}
+
+    {% for c in certificates %}
+    <div class="port-card rv-up" style="--i:{{ loop.index0 }}">
+      <div class="port-thumb" style="height:190px;">
+
+        <a href="{{ c.view }}" target="_blank" rel="noopener">
+          <img src="{{ url_for('static', filename=c.thumb if c.thumb else c.img) }}" alt="{{ c.title }}" style="width:100%;height:100%;object-fit:cover;object-position:top center;"/>
+        </a>
+      </div>
+
+
+      <div class="port-body">
+        <h3 style="margin-bottom:8px;">{{ c.title }}</h3>
+        <p style="margin-bottom:10px;">{{ c.org }}</p>
+        <p style="margin-bottom:16px;">Completion: {{ c.date }}</p>
+
+        <div class="port-chips" style="margin-bottom:12px;">
+          {% for t in c.tags %}
+            <span class="pchip">{{ t }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="cta-row" style="gap:10px;flex-wrap:wrap;">
+          <a class="pb pb-l" href="{{ c.view }}" target="_blank" rel="noopener">View Certificate</a>
+          <a class="pb pb-g" href="{{ c.download }}" download target="_blank" rel="noopener" style="opacity:{{ 1 if c.download != '#' else 0.6 }};pointer-events:{{ 'auto' if c.download != '#' else 'none' }};">Download</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ==================== CONTACT ==================== -->
+<section id="contact">
+
+  <div class="sec-hd">
+    <span class="eyebrow">Get In Touch</span>
+    <h2 class="sec-title">Contact <em>Me</em></h2>
+    <div class="title-bar"></div>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-l rv-l">
+      <h3>Let's build something intelligent</h3>
+      <div class="c-card"><div class="c-ic">📧</div><div><p>Email</p><span><a href="mailto:{{ d.email }}">{{ d.email }}</a></span></div></div>
+      <div class="c-card"><div class="c-ic">📞</div><div><p>Contact</p><span><a href="tel:{{ d.phone }}">{{ d.phone }}</a></span></div></div>
+      <div class="c-card"><div class="c-ic">📍</div><div><p>Location</p><span>{{ d.location }}</span></div></div>
+      
+      <div class="c-card"><div class="c-ic">💼</div><div><p>LinkedIn</p><span><a href="https://{{ d.linkedin }}" target="_blank" rel="noopener">{{ d.linkedin }}</a></span></div></div>
+
+      <div class="c-card"><div class="c-ic">⚡</div><div><p>Status</p><span class="avail">Available for freelance &amp; full-time</span></div></div>
+    </div>
+
+    <div class="rv-r">
+      <div class="form-box">
+          <div class="frow2">
+          <div class="fg"><label>Your Name *</label><input type="text"  id="fn"  placeholder="Soumyadip Karak"/></div>
+          <div class="fg"><label>Your Email *</label><input type="email" id="fe"  placeholder="soumya@example.com"/></div>
+        </div>
+        <div class="fg"><label>Subject</label><input type="text" id="fs" placeholder="Project Inquiry"/></div>
+        <div class="fg"><label>Message *</label><textarea id="fm" placeholder="Tell me about your project..."></textarea></div>
+
+        <button class="btn-send" id="sb">Send Message →</button>
+        <div id="fbk" class="fb-msg"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <p>© {{ d.year }} <strong>{{ d.name }}</strong> · AI Engineer · Kolkata, India</p>
+  <div class="foot-soc">
+    {% if d.github %}
+    <a href="https://{{ d.github }}" class="soc soc-gh" title="GitHub" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    </a>
+    {% endif %}
+
+    {% if d.linkedin %}
+    <a href="https://{{ d.linkedin }}" class="soc soc-li" title="LinkedIn" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    {% endif %}
+  </div>
+</footer>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+/* ── 1. PARTICLE CANVAS BACKGROUND ── */
+(function(){
+  const c=document.getElementById('cvs');
+  const ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
+  resize();window.addEventListener('resize',resize);
+  function mkPt(){
+    return{
+      x:Math.random()*W, y:Math.random()*H,
+      vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35,
+      r:Math.random()*1.8+.5,
+      a:Math.random()
+    };
+  }
+  for(let i=0;i<90;i++)pts.push(mkPt());
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(77,184,255,${p.a*.5})`;
+      ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<130){
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x,pts[i].y);
+          ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.strokeStyle=`rgba(77,184,255,${(1-d/130)*.12})`;
+          ctx.lineWidth=.6;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── 2. NAVBAR SCROLL + BURGER ── */
+const nb=document.getElementById('nb');
+const nlinks=document.getElementById('nlinks');
+window.addEventListener('scroll',()=>{
+  nb.classList.toggle('scrolled',scrollY>40);
+  const secs=[...document.querySelectorAll('section[id]')];
+  let cur='';
+  secs.forEach(s=>{if(scrollY>=s.offsetTop-90)cur=s.id});
+  document.querySelectorAll('.n-a').forEach(a=>{
+    a.classList.toggle('act',a.getAttribute('href')==='#'+cur);
+  });
+},{passive:true});
+
+document.getElementById('bg').addEventListener('click',()=>{
+  nlinks.classList.toggle('open');
+});
+
+// close on link click
+nlinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nlinks.classList.remove('open')));
+
+/* ── 3. PHOTO UPLOAD ── */
+document.getElementById('pf').addEventListener('change',function(){
+  const f=this.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const src=e.target.result;
+    const img=document.getElementById('pimg');
+    img.src=src;img.style.display='block';
+    document.getElementById('ph').style.display='none';
+    const oi=document.getElementById('oimg');
+    oi.src=src;oi.style.display='block';
+  };
+  r.readAsDataURL(f);
+});
+
+/* ── 4. TYPEWRITER ── */
+const roles = {{ d.roles | tojson }};
+let ri=0,ci=0,del=false;
+const el=document.getElementById('tw');
+function type(){
+  const w=roles[ri];
+  if(!del){
+    el.textContent=w.slice(0,++ci);
+    if(ci===w.length){del=true;setTimeout(type,1900);return}
+  } else {
+    el.textContent=w.slice(0,--ci);
+    if(ci===0){del=false;ri=(ri+1)%roles.length}
+  }
+  setTimeout(type,del?55:90);
+}
+type();
+
+/* ── 5. SCROLL REVEAL ── */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('show');
+      e.target.querySelectorAll('.sk-bar').forEach(b=>{
+        b.style.width=b.dataset.p+'%';
+      });
+    }
+  });
+},{threshold:.12});
+
+document.querySelectorAll('.rv-up,.rv-l,.rv-r').forEach(el=>observer.observe(el));
+
+/* ── 6. CONTACT FORM ── */
+document.getElementById('sb').addEventListener('click',async()=>{
+  const name=document.getElementById('fn').value.trim();
+  const email=document.getElementById('fe').value.trim();
+  const subject=document.getElementById('fs').value.trim();
+  const msg=document.getElementById('fm').value.trim();
+  const fbk=document.getElementById('fbk');
+
+  if(!name||!email||!msg){
+    fbk.textContent='⚠ Please fill in Name, Email and Message.';
+    fbk.className='fb-msg fb-err';return;
+  }
+  const emailRe=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if(!emailRe.test(email)){
+    fbk.textContent='⚠ Please enter a valid email address.';
+    fbk.className='fb-msg fb-err';return;
+  }
+
+  document.getElementById('sb').textContent='Sending…';
+
+  try{
+    const res=await fetch('/api/contact',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name,email,subject,message:msg})
+    });
+    const data=await res.json();
+
+    if(!data.ok){
+      fbk.textContent=data.error || 'Something went wrong.';
+      fbk.className='fb-msg fb-err';
+    } else {
+      fbk.textContent=`✅ Thanks ${name}! I'll get back to you soon.`;
+      fbk.className='fb-msg fb-ok';
+    }
+  } catch(err){
+    fbk.textContent='⚠ Network error. Please try again.';
+    fbk.className='fb-msg fb-err';
+  }
+
+  document.getElementById('sb').textContent='Send Message →';
+  ['fn','fe','fs','fm'].forEach(id=>document.getElementById(id).value='');
+});
+
+/* ── 7. THEME TOGGLE (light mode) ── */
+document.getElementById('moon').addEventListener('click',function(){
+  document.body.classList.toggle('light');
+  this.textContent=document.body.classList.contains('light')?'☀️':'🌙';
+});
+</script>
+
+<!-- Light mode overrides (optional) -->
+<style>
+body.light{--bg:#f0f4ff;--bg2:#e4ecff;--card:#fff;--text:#0a1228;--muted:#4a6080;--border:rgba(77,130,255,.15)}
+body.light #cvs{opacity:.25}
+body.light nav{background:rgba(240,244,255,.92)}
+body.light .n-logo{color:#0a1228}
+body.light .sec-title{color:#0a1228}
+body.light .sec-title em{color:var(--acc)}
+body.light .eyebrow{color:var(--acc)}
+
+body.light .hero-name{background:linear-gradient(130deg,#0a1228 30%,#1a6abf 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+body.light .stats-bar{background:rgba(220,230,255,.95)}
+body.light footer{background:var(--bg2)}
+</style>
+</body>
+</html>
+
