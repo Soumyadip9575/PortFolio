@@ -1,2 +1,2 @@
 # PortFolio
-I'm Soumyadip Karak, A highly motivated and detail-oriented Computer Science student specializing in AI and Machine Learning, with strong foundations in programming, data structures, and problem-solving. Skilled in Python, Database Management System and data- driven technologies, with hands-on experience through academic projects and internships. 
+A modern and responsive personal portfolio website developed using Flask, HTML, CSS, and JavaScript. The platform showcases my academic achievements, AI/ML skills, projects, certifications, and professional profile. It includes a downloadable resume, project gallery, certificate showcase, and contact section, all deployed on Render with GitHub integration for continuous updates.
