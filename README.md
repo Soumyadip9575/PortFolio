@@ -75,4 +75,3 @@ Portfolio/
 │       └── CV_SOUMYADIP.pdf
 │
 └── __pycache__/
-FastAPI
