@@ -124,21 +124,6 @@ Contact form and professional communication details.
 
 ---
 
-## 📸 Screenshots
-
-### Home Page
-![Home](screenshots/home.png)
-
-### About Section
-![About](screenshots/about.png)
-
-### Portfolio Section
-![Portfolio](screenshots/portfolio.png)
-
-### Certificates Section
-![Certificates](screenshots/certificates.png)
-
----
 
 ## 🚀 Deployment
 
